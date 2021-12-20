@@ -1,19 +1,55 @@
 let express = require('express');
 let app = express();
 let { Router } = express;
-let router = new Router;
+let routerPro = new Router;
+let routerCar = new Router;
 
-//Puerto
-const PORT = 5000;
+//Productos
 
-router.get("/", (req, res, next) => {
-    res.send("It's Alive 👽")
+let productos = [];
+let carrito = [];
+
+
+//CRUD Productos
+//Get productos
+routerPro.get("/", (req, res, next) => {
+    res.json(productos);
+});
+
+//Post productos
+routerPro.post("/", (req, res, next) => {
+    productos.push(req.query.agregar)
+    res.json(productos);
 })
 
 
+//CRUD Carrito
 
+
+//Puerto
+const PORT = 8080;
+
+//Router Productos
+routerPro.get("/", (req, res, next) => {
+    res.send("Productos")
+});
+
+//Router Carrito
+routerCar.get("/", (req, res, next) => {
+    res.send("Carrito")
+})
+
+//Router Home
+app.get("/", (req, res, next) => {
+    res.send("Home")
+})
+
+
+//Router
+app.use("/producto", routerPro);
+app.use("/carrito", routerCar);
 
 // Aplicacion escuchando y regresando un console log
-app.listenerCount(PORT, () => {
-    console.log("Listening: P5000")
+app.listen(PORT, () => {
+    console.log(`Listening http://localhost:${PORT}`);
 })
