@@ -9,7 +9,6 @@ let routerCar = new Router;
 let productos = [];
 let carrito = [];
 
-
 //CRUD Productos
 //Get productos
 routerPro.get("/", (req, res, next) => {
@@ -24,6 +23,18 @@ routerPro.post("/", (req, res, next) => {
 
 
 //CRUD Carrito
+//Get Carrito
+routerCar.get("/", (req, res, next) => {
+    res.json(carrito);
+});
+
+//Post Carrito
+routerCar.post("/", (req, res, next) => {
+    carrito.push(req.query.listar)
+    res.json(carrito);
+});
+
+
 
 
 //Puerto
