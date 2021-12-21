@@ -7,8 +7,8 @@ let routerCar = new Router;
 //Puerto
 const PORT = 8080;
 
-let productos = [];
-let carrito = [];
+let productos = ["Arroz", "Leche"];
+let carrito = ["Lentejas"];
 
 //######## CRUD Productos
 //Get productos
