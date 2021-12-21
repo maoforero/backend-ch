@@ -1,72 +1,55 @@
+const e = require('express');
 const express = require('express');
+const { send } = require('express/lib/response');
+const routerCar = require('./router/rutasCar');
 let app = express();
 let { Router } = express;
-let routerPro = new Router;
-let routerCar = new Router;
+let routerC =  new Router;
 
 //Puerto
 const PORT = 8080;
 
-let productos = [
-  {
-    name:"iphone 13",
-    price: "800"
-  },
-  {
-    name:"Samsumg flip",
-    prince:"1200"
-  },
-  {
-    name:"One Plus 9 pro",
-    price:"900"
-  },
-  {
-    name:"Huawei Mate 30 pro",
-    price:"1000"
-  }
+let carrito = [
+  {id: 1, name: "maleta", price: 100},
+  {id: 2, name: "keyboard", price: 50}
 ];
-let carrito = ["Lentejas"];
 
-//######## CRUD Productos
-//Get productos
-routerPro.get("/", (req, res) => {
-    res.json(productos);
+routerC.get("/", (req, res, next) => {
+  res.send({
+    carrito
+  })
 });
 
-// Post productos
-routerPro.post("/", (req, res) => {
-    productos.push(req.query.add)
-    res.json(productos);
-});
-
-routerPro.get('/', (req, res) => {
-
+routerC.get("/:id", (req, res, next) => {
+  const { id } = require.params;
+  const carItem = carrito.find((carItem) => carItem.id === id);
+  if(carItem) res.send(carItem)
+  else res.send('Not Encontrado');
 })
 
-//####### CRUD Carrito
-//Get Carrito
-routerCar.get("/", (req, res) => {
-    res.json(carrito)
-});
-
-//Post Carrito
-routerCar.post("/", (req, res) => {
-    carrito.push(req.query.add)
-    res.json(carrito);
-});
+app.use(express.static(__dirname + 'public'));
 
 //Router
-app.use("/productos", routerPro);
-app.use("/productos/:id", routerPro);
-app.use("/carrito", routerCar);
+app.use("/productos", require('./router/rutasPro'));
+app.use("/carrito", require('./router/rutasCar'));
+app.use("/car", routerC);
 
 
 //Router Home
 app.get("/", (req, res) => {
-    res.send("Home")
+  res.sendStatus(200)
+})
+
+// Router error
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  res.status(404).render('404', {
+    title: "404",
+    description: "Not found"
+  })
 })
 
 // Aplicacion escuchando y regresando un console log
 app.listen(PORT, () => {
-    console.log(`It's Alive http://localhost:${PORT} 👽`);
-    })
+  console.log(`It's Alive http://localhost:${PORT} 👽`);
+  })
