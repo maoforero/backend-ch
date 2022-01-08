@@ -1,4 +1,5 @@
 const e = require('express');
+const { response } = require('express');
 const express = require('express');
 const { send } = require('express/lib/response');
 const routerCar = require('./router/rutasCar');
@@ -39,6 +40,8 @@ app.use("/car", routerC);
 app.get("/", (req, res) => {
   res.sendStatus(200)
 })
+
+
 
 // Router error
 app.use((err, req, res, next) => {
